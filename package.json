@@ -1,0 +1,27 @@
+{
+  "name": "flight-tracker",
+  "version": "1.0.0",
+  "description": "Web app para trackear vuelos de aerolíneas desde Colombia/Ecuador a Madrid",
+  "main": "backend/server.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "dev": "nodemon backend/server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "axios": "^1.6.2",
+    "sqlite3": "^5.1.6",
+    "body-parser": "^1.20.2",
+    "moment": "^2.29.4",
+    "node-cron": "^3.0.2",
+    "nodemailer": "^6.9.5",
+    "cheerio": "^1.0.0-rc.12"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  },
+  "keywords": ["flight", "tracker", "aerolineas", "logistica"],
+  "author": "",
+  "license": "MIT"
+}
