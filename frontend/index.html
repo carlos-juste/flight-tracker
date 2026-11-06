@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Tracker - Seguimiento de Vuelos y Guías</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-plane-departure"></i>
+                    <span>Flight Tracker</span>
+                </div>
+                <nav class="nav">
+                    <a href="#dashboard" class="nav-link active" data-section="dashboard">
+                        <i class="fas fa-chart-line"></i> Dashboard
+                    </a>
+                    <a href="#flights" class="nav-link" data-section="flights">
+                        <i class="fas fa-plane"></i> Vuelos
+                    </a>
+                    <a href="#shipments" class="nav-link" data-section="shipments">
+                        <i class="fas fa-box"></i> Guías
+                    </a>
+                    <a href="#analytics" class="nav-link" data-section="analytics">
+                        <i class="fas fa-chart-bar"></i> Analítica
+                    </a>
+                    <a href="#settings" class="nav-link" data-section="settings">
+                        <i class="fas fa-cog"></i> Configuración
+                    </a>
+                </nav>
+                <div class="header-actions">
+                    <button class="btn btn-primary" id="refreshBtn">
+                        <i class="fas fa-sync-alt"></i> Actualizar
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <section id="dashboard" class="section active">
+                <div class="section-header">
+                    <h1>Dashboard de Seguimiento</h1>
+                    <p>Vista general de vuelos y guías desde Colombia y Ecuador hacia Madrid</p>
+                </div>
+                <div class="dashboard-grid">
+                    <div class="stats-row">
+                        <div class="stat-card">
+                            <div class="stat-icon total-flights">
+                                <i class="fas fa-plane"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-value" id="totalFlights">0</span>
+                                <span class="stat-label">Vuelos Totales</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon total-shipments">
+                                <i class="fas fa-boxes"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-value" id="totalShipments">0</span>
+                                <span class="stat-label">Guías Totales</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon complete">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-value" id="completeShipments">0</span>
+                                <span class="stat-label">Guías Completas</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon partial">
+                                <i class="fas fa-exclamation-circle"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-value" id="partialShipments">0</span>
+                                <span class="stat-label">Guías Parciales</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon pending">
+                                <i class="fas fa-hourglass-half"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-value" id="pendingShipments">0</span>
+                                <span class="stat-label">Guías Pendientes</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="charts-row">
+                        <div class="chart-card">
+                            <h3>Guías por Aerolínea</h3>
+                            <canvas id="airlineChart"></canvas>
+                        </div>
+                        <div class="chart-card">
+                            <h3>Estado de Guías</h3>
+                            <canvas id="statusChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="activity-row">
+                        <div class="activity-card">
+                            <h3>Últimos Vuelos</h3>
+                            <div class="table-container">
+                                <table class="data-table" id="recentFlightsTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Vuelo</th>
+                                            <th>Aerolínea</th>
+                                            <th>Origen</th>
+                                            <th>Destino</th>
+                                            <th>Salida</th>
+                                            <th>Llegada</th>
+                                            <th>Estado</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="recentFlightsBody">
+                                        <tr><td colspan="7">Cargando...</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="activity-card">
+                            <h3>Últimas Guías</h3>
+                            <div class="table-container">
+                                <table class="data-table" id="recentShipmentsTable">
+                                    <thead>
+                                        <tr>
+                                            <th>N° Guía</th>
+                                            <th>Aerolínea</th>
+                                            <th>Origen</th>
+                                            <th>Paquetes</th>
+                                            <th>Estado</th>
+                                            <th>Actualizado</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="recentShipmentsBody">
+                                        <tr><td colspan="6">Cargando...</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+        <script src="js/api.js"></script>
+        <script src="js/app.js"></script>
+        <script src="js/dashboard.js"></script>
+        <script src="js/flights.js"></script>
+        <script src="js/shipments.js"></script>
+        <script src="js/analytics.js"></script>
+        <script src="js/settings.js"></script>
+        <script src="js/modal.js"></script>
+    </div>
+</body>
+</html>
